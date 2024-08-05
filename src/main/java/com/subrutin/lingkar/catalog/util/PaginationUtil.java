@@ -2,9 +2,10 @@ package com.subrutin.lingkar.catalog.util;
 
 import java.util.List;
 
+import org.springframework.data.domain.Sort;
+
 import com.subrutin.lingkar.catalog.dto.ResultPageResponseDTO;
 
-import io.quarkus.panache.common.Sort;
 
 public class PaginationUtil {
     public static <T> ResultPageResponseDTO<T> createResultPageDTO(List<T> dtos, Long totalElements, Integer pages){
@@ -17,9 +18,9 @@ public class PaginationUtil {
 	
 	public static Sort.Direction getSortBy(String sortBy){
 		if(sortBy.equalsIgnoreCase("asc")) {
-			return Sort.Direction.Ascending;
+			return Sort.Direction.ASC;
 		}else {
-			return Sort.Direction.Descending;
+			return Sort.Direction.DESC;
 		}
 	}
 

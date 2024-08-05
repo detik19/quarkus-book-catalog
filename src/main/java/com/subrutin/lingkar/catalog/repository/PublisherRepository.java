@@ -3,21 +3,20 @@ package com.subrutin.lingkar.catalog.repository;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+
 import com.subrutin.lingkar.catalog.domain.Publisher;
-import com.subrutin.lingkar.catalog.dto.PublisherListDTO;
-import com.subrutin.lingkar.catalog.dto.ResultPageResponseDTO;
 
-import io.quarkus.panache.common.Page;
-import io.quarkus.panache.common.Sort;
 
-public interface PublisherRepository {
 
-    public List<Publisher> findAllPublisher();
+public interface PublisherRepository extends JpaRepository<Publisher, Long>{
 
-    public Optional<Publisher> findPublisherById(Long id);
+    public List<Publisher> findAll();
 
-    public void createPublisher(Publisher publisher);
+    public Optional<Publisher> findById(Long id);
 
-    public ResultPageResponseDTO<Publisher> findPublisherList(String publisherName, Sort sort, Page page);
+    public Page<Publisher> findByNameLikeIgnoreCase(String publisherName, Pageable pageable);
 
 }
