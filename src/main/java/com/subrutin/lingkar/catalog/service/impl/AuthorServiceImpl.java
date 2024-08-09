@@ -1,15 +1,26 @@
 package com.subrutin.lingkar.catalog.service.impl;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import com.subrutin.lingkar.catalog.domain.Author;
 import com.subrutin.lingkar.catalog.dto.AuthorCreateRequestDTO;
 import com.subrutin.lingkar.catalog.dto.AuthorDetailResponseDTO;
+import com.subrutin.lingkar.catalog.dto.AuthorListResponseDTO;
 import com.subrutin.lingkar.catalog.dto.AuthorUpdateRequestDTO;
+import com.subrutin.lingkar.catalog.dto.ResultPageResponseDTO;
 import com.subrutin.lingkar.catalog.exception.ResourceNotFoundException;
 import com.subrutin.lingkar.catalog.repository.AuthorRepository;
 import com.subrutin.lingkar.catalog.service.AuthorService;
+import com.subrutin.lingkar.catalog.util.PaginationUtil;
 
+import io.netty.util.internal.StringUtil;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
@@ -56,6 +67,19 @@ public class AuthorServiceImpl implements AuthorService{
             author.getBirthDate().toEpochDay(), 
             author.getDescription());
         return dto;
+    }
+
+    @Override
+    public ResultPageResponseDTO<AuthorListResponseDTO> findAuthorList(Integer pages, Integer limit, String direction,
+            String sortBy, String name) {
+        name = StringUtil.isNullOrEmpty(name)?"%" :name +"%";
+        Sort sort = Sort.by(new Sort.Order(PaginationUtil.getSortBy(direction), sortBy));
+        Pageable pageable = PageRequest.of(pages, limit, sort);
+        Page<Author> pageResult = authorRepository.findByNameLikeIgnoreCase(name, pageable);
+        List<AuthorListResponseDTO> dtos = pageResult.stream().map((a)->{
+            return new AuthorListResponseDTO(a.getId(), a.getName());
+        }).collect(Collectors.toList());
+        return PaginationUtil.createResultPageDTO(dtos, pageResult.getTotalElements(), pageResult.getTotalPages());
     }
 
 }
