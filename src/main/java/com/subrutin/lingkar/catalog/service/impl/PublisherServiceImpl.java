@@ -65,4 +65,9 @@ public class PublisherServiceImpl implements PublisherService {
         publisherRepository.save(publisher);
     }
 
+    @Override
+    public void deletePublisher(Long id) {
+        
+    }
+
 }
