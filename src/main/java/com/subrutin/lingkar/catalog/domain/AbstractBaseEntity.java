@@ -25,8 +25,6 @@ public abstract class AbstractBaseEntity implements Serializable {
     @Column(name = "updated_date", nullable = false)
     private Instant updatedDate;
 
-
-
     @CreatedBy
     @Column(name = "created_by", nullable = false, updatable = false)
     private String createdBy;

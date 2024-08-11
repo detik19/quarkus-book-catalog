@@ -75,9 +75,10 @@ public class AuthorServiceImpl implements AuthorService{
         name = StringUtil.isNullOrEmpty(name)?"%" :name +"%";
         Sort sort = Sort.by(new Sort.Order(PaginationUtil.getSortBy(direction), sortBy));
         Pageable pageable = PageRequest.of(pages, limit, sort);
-        Page<Author> pageResult = authorRepository.findByNameLikeIgnoreCase(name, pageable);
+        Page<Author> pageResult = authorRepository.findByNameLikeIgnoreCase(name.toUpperCase(), pageable);
         List<AuthorListResponseDTO> dtos = pageResult.stream().map((a)->{
-            return new AuthorListResponseDTO(a.getId(), a.getName());
+            AuthorListResponseDTO dto = new AuthorListResponseDTO(a.getId(), a.getName());
+            return dto;
         }).collect(Collectors.toList());
         return PaginationUtil.createResultPageDTO(dtos, pageResult.getTotalElements(), pageResult.getTotalPages());
     }

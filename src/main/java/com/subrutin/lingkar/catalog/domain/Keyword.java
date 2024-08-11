@@ -1,32 +1,31 @@
 package com.subrutin.lingkar.catalog.domain;
 
+import java.io.Serializable;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-@Table(name="publisher")
 @Entity
-public class Publisher extends AbstractBaseEntity {
+@Table(name = "keyword")
+public class Keyword implements Serializable {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Long id;
+    private String code;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name",nullable = false)
     private String name;
 
-    @Column(name="description")
+    @Column(name = "description")
     private String description;
 
-    public Long getId() {
-        return id;
+    public String getCode() {
+        return code;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getName() {
@@ -44,8 +43,6 @@ public class Publisher extends AbstractBaseEntity {
     public void setDescription(String description) {
         this.description = description;
     }
-
-  
 
     
 }
