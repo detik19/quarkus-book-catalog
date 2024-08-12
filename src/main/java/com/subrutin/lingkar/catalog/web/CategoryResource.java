@@ -9,7 +9,6 @@ import com.subrutin.lingkar.catalog.dto.CategoryRequestDTO;
 import com.subrutin.lingkar.catalog.dto.CategoryResponseDTO;
 import com.subrutin.lingkar.catalog.service.CategoryService;
 
-import jakarta.enterprise.inject.Default;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.DefaultValue;

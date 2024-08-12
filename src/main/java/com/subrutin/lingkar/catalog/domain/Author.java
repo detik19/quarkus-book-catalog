@@ -26,7 +26,7 @@ public class Author extends AbstractBaseEntity {
     @Column(name="birth_date")
     private LocalDate birthDate;
 
-    @Column(name="description")
+    @Column(name="description", columnDefinition = "varchar(1000)")
     private String description;
 
     public Long getId() {

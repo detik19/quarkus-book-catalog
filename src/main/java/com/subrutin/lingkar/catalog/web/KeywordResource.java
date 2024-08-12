@@ -3,7 +3,6 @@ package com.subrutin.lingkar.catalog.web;
 import java.net.URI;
 
 import org.jboss.resteasy.reactive.RestResponse;
-import org.springframework.data.jpa.repository.Query;
 
 import com.subrutin.lingkar.catalog.dto.KeywordListResponseDTO;
 import com.subrutin.lingkar.catalog.dto.KeywordRequestDTO;
@@ -41,7 +40,7 @@ public class KeywordResource {
 
     @GET
     public RestResponse<ResultPageResponseDTO<KeywordListResponseDTO>> findKeywordList(
-            @QueryParam("pages") @DefaultValue("1") Integer pages, 
+            @QueryParam("pages") @DefaultValue("0") Integer pages, 
             @QueryParam("limit") @DefaultValue("10") Integer limit, 
             @QueryParam("sortBy") @DefaultValue("code") String sortBy, 
             @QueryParam("direction") @DefaultValue("asc") String direction, 

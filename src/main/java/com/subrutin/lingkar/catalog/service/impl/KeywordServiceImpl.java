@@ -44,7 +44,7 @@ public class KeywordServiceImpl implements KeywordService {
         code = StringUtil.isNullOrEmpty(code) ? "%" : code + "%";
         Sort sort = Sort.by(new Sort.Order(PaginationUtil.getSortBy(direction), sortBy));
         Pageable pageable = PageRequest.of(pages, limit, sort);
-        Page<Keyword> pageResult = keywordRepository.findAllByCodeLikeIgnoreCase(code, pageable);
+        Page<Keyword> pageResult = keywordRepository.findAllByCodeLikeIgnoreCase(code.toUpperCase(), pageable);
         List<KeywordListResponseDTO> dtos = pageResult.stream().map((k) -> {
             return new KeywordListResponseDTO(k.getCode(), k.getName());
         }).collect(Collectors.toList());
