@@ -1,8 +1,11 @@
 package com.subrutin.lingkar.catalog.domain;
 
+import java.util.Set;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -14,6 +17,9 @@ public class Category {
 
     @Column(name = "name")
     private String name;
+
+    @ManyToMany(mappedBy = "categories" )
+    public Set<Book> books;
 
     public String getCode() {
         return code;
@@ -29,6 +35,14 @@ public class Category {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(Set<Book> books) {
+        this.books = books;
     }
 
     

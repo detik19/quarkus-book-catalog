@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort;
 
 import com.subrutin.lingkar.catalog.domain.Publisher;
 import com.subrutin.lingkar.catalog.dto.PublisherCreateRequestDTO;
+import com.subrutin.lingkar.catalog.dto.PublisherDetailResponseDTO;
 import com.subrutin.lingkar.catalog.dto.PublisherListDTO;
 import com.subrutin.lingkar.catalog.dto.PublisherUpdateRequestDTO;
 import com.subrutin.lingkar.catalog.dto.ResultPageResponseDTO;
@@ -17,14 +18,19 @@ import com.subrutin.lingkar.catalog.exception.ResourceNotFoundException;
 import com.subrutin.lingkar.catalog.repository.PublisherRepository;
 import com.subrutin.lingkar.catalog.service.PublisherService;
 import com.subrutin.lingkar.catalog.util.PaginationUtil;
+import com.subrutin.lingkar.catalog.util.SecurityUtil;
 
 import io.quarkus.runtime.util.StringUtil;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 @ApplicationScoped
 public class PublisherServiceImpl implements PublisherService {
 
     private final PublisherRepository publisherRepository;
+
+    @Inject
+    private SecurityUtil securityUtil;
 
     public PublisherServiceImpl(PublisherRepository publisherRepository) {
         this.publisherRepository = publisherRepository;
@@ -67,8 +73,18 @@ public class PublisherServiceImpl implements PublisherService {
 
     @Override
     public void deletePublisher(Long id) {
-        publisherRepository.deleteById(id);
+        publisherRepository.softDelete(id);
         
+    }
+
+    @Override
+    public PublisherDetailResponseDTO findPublisher(Long id) {
+        System.out.println(securityUtil.getCurrentUsername());
+        Publisher publisher = publisherRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("publisher.notfound"));
+        PublisherDetailResponseDTO dto = new PublisherDetailResponseDTO(publisher.getId(), publisher.getName(),
+                publisher.getDescription());
+        return dto;
     }
 
 }

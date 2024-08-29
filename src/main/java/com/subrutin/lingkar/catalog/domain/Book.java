@@ -1,9 +1,10 @@
 package com.subrutin.lingkar.catalog.domain;
 
-import java.util.List;
+import java.util.Set;
 
 import com.subrutin.lingkar.catalog.domain.enums.Type;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -14,6 +15,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -34,30 +36,50 @@ public class Book extends AbstractBaseEntity {
     @Column(name = "description")
     private String description;
 
-    @ManyToMany
-    @JoinTable(name = "book_author", joinColumns = {
-            @JoinColumn(name = "book_id", referencedColumnName = "id")
-    }, inverseJoinColumns = {
-            @JoinColumn(name = "author_id", referencedColumnName = "id")
-    })
-    private List<Author> authors;
+    @ManyToMany(mappedBy = "books")
+    private Set<Author> authors;
+
+    @ManyToOne
+    @JoinColumn(name = "edition_of")
+    private Book editionOf;
 
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(name = "book_category", joinColumns = {
             @JoinColumn(name = "book_id", referencedColumnName = "id")
     }, inverseJoinColumns = {
             @JoinColumn(name = "category_code", referencedColumnName = "code")
     })
-    private List<Category> categories;
+    private Set<Category> categories;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(name = "book_keyword", joinColumns = {
             @JoinColumn(name = "book_id", referencedColumnName = "id")
     }, inverseJoinColumns = {
             @JoinColumn(name = "keyword_code", referencedColumnName = "code")
     })
-    private List<Keyword> keywords;
+    private Set<Keyword> keywords;
+
+    public void addKeyword(Keyword keyword) {
+        this.keywords.add(keyword);
+        keyword.getBooks().add(this);
+    }
+
+    public void removeKeyword(Keyword keyword) {
+        this.keywords.remove(keyword);
+        keyword.getBooks().remove(this);
+    }
+
+    public void addCategory(Category category) {
+        this.categories.add(category);
+        category.getBooks().add(this);
+        
+    }
+
+    public void removeCategory(Category category){
+        this.categories.remove(category);
+        category.getBooks().remove(this);
+    }
 
     public Long getId() {
         return id;
@@ -91,28 +113,36 @@ public class Book extends AbstractBaseEntity {
         this.description = description;
     }
 
-    public List<Author> getAuthors() {
+    public Set<Author> getAuthors() {
         return authors;
     }
 
-    public void setAuthors(List<Author> authors) {
+    public void setAuthors(Set<Author> authors) {
         this.authors = authors;
     }
 
-    public List<Category> getCategories() {
+    public Set<Category> getCategories() {
         return categories;
     }
 
-    public void setCategories(List<Category> categories) {
+    public void setCategories(Set<Category> categories) {
         this.categories = categories;
     }
 
-    public List<Keyword> getKeywords() {
+    public Set<Keyword> getKeywords() {
         return keywords;
     }
 
-    public void setKeywords(List<Keyword> keywords) {
+    public void setKeywords(Set<Keyword> keywords) {
         this.keywords = keywords;
+    }
+
+    public Book getEditionOf() {
+        return editionOf;
+    }
+
+    public void setEditionOf(Book editionOf) {
+        this.editionOf = editionOf;
     }
 
 

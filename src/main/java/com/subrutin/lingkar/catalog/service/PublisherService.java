@@ -1,6 +1,7 @@
 package com.subrutin.lingkar.catalog.service;
 
 import com.subrutin.lingkar.catalog.dto.PublisherCreateRequestDTO;
+import com.subrutin.lingkar.catalog.dto.PublisherDetailResponseDTO;
 import com.subrutin.lingkar.catalog.dto.PublisherListDTO;
 import com.subrutin.lingkar.catalog.dto.PublisherUpdateRequestDTO;
 import com.subrutin.lingkar.catalog.dto.ResultPageResponseDTO;
@@ -15,5 +16,7 @@ public interface PublisherService {
 	public void updatePublisher(Long id, PublisherUpdateRequestDTO dto);
 
 	public void deletePublisher(Long id);
+
+	public PublisherDetailResponseDTO findPublisher(Long id);
 
 }

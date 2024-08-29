@@ -11,6 +11,7 @@ import com.subrutin.lingkar.catalog.dto.AuthorUpdateRequestDTO;
 import com.subrutin.lingkar.catalog.dto.ResultPageResponseDTO;
 import com.subrutin.lingkar.catalog.service.AuthorService;
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DefaultValue;
 import jakarta.ws.rs.GET;
@@ -20,7 +21,9 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.SecurityContext;
 
 @Path("/v1/author")
 @Produces(MediaType.APPLICATION_JSON)
@@ -33,6 +36,7 @@ public class AuthorResource {
         this.authorService = authorService;
     }
 
+    @RolesAllowed("USER")
     @POST
     public RestResponse<Void> createNewAuthor(AuthorCreateRequestDTO dto) {
         authorService.createAuthor(dto);
@@ -54,13 +58,16 @@ public class AuthorResource {
     }
 
 
+    @RolesAllowed("USER")
     @GET
     public RestResponse<ResultPageResponseDTO<AuthorListResponseDTO>> findAuthorList(
             @QueryParam("pages") @DefaultValue("0") Integer pages,
             @QueryParam("limit") @DefaultValue("10") Integer limit,
             @QueryParam("sortBy") @DefaultValue("name") String sortBy,
             @QueryParam("direction") @DefaultValue("asc") String direction,
-            @QueryParam("name") String name) {
+            @QueryParam("name") String name,
+            @Context SecurityContext securityContext) {
+                System.out.println(securityContext.getUserPrincipal());
 
         ResultPageResponseDTO<AuthorListResponseDTO> dtos = authorService.findAuthorList(pages, limit, direction,
                 sortBy, name);

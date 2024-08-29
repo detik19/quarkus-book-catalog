@@ -6,12 +6,15 @@ import org.jboss.resteasy.reactive.RestQuery;
 import org.jboss.resteasy.reactive.RestResponse;
 
 import com.subrutin.lingkar.catalog.dto.PublisherCreateRequestDTO;
+import com.subrutin.lingkar.catalog.dto.PublisherDetailResponseDTO;
 import com.subrutin.lingkar.catalog.dto.PublisherListDTO;
 import com.subrutin.lingkar.catalog.dto.PublisherUpdateRequestDTO;
 import com.subrutin.lingkar.catalog.dto.ResultPageResponseDTO;
 import com.subrutin.lingkar.catalog.service.PublisherService;
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.DefaultValue;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
@@ -21,7 +24,7 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
-@Path("/v1/publisher")
+@Path("/v1/publishers")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class PublisherResource {
@@ -46,18 +49,36 @@ public class PublisherResource {
             return restresponse;
         }
 
+    @RolesAllowed("USER")    
     @POST
     public RestResponse<Void> createNewPublisher(PublisherCreateRequestDTO dto){
         publisherService.createPublisher(dto);
         return RestResponse.created(URI.create("/v1/publisher"));
     }
 
-
+    @RolesAllowed("USER")
     @PUT
     @Path("/{id}")
     public RestResponse<Void> updatePublisher(@PathParam(value = "id") Long id, PublisherUpdateRequestDTO dto){
         publisherService.updatePublisher(id, dto);
         return RestResponse.ok();
     }
+
+    @GET
+    @Path("/{id}")
+    public RestResponse<PublisherDetailResponseDTO> findPublisher(@PathParam(value = "id") Long id){
+        PublisherDetailResponseDTO dto = publisherService.findPublisher(id);
+        return RestResponse.ok(dto);
+    }
+
+
+    @RolesAllowed("USER")
+    @DELETE
+    @Path("/{id}")
+    public RestResponse<Void> deletePublisher(@PathParam(value = "id") Long id){
+        publisherService.deletePublisher(id);
+        return RestResponse.ok();
+    }   
+    
 
 }

@@ -18,7 +18,7 @@ public class UpdateByAudit implements BeforeExecutionGenerator {
     public Object generate(SharedSessionContractImplementor session, Object owner, Object currentValue,
             EventType eventType) {
         StringBuilder attributeValueBuilder = new StringBuilder()
-                .append("test");
+                .append("SYSTEM");
 
         return attributeValueBuilder.toString();
     }

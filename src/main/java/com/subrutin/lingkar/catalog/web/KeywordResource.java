@@ -9,6 +9,7 @@ import com.subrutin.lingkar.catalog.dto.KeywordRequestDTO;
 import com.subrutin.lingkar.catalog.dto.ResultPageResponseDTO;
 import com.subrutin.lingkar.catalog.service.KeywordService;
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.DefaultValue;
@@ -31,6 +32,7 @@ public class KeywordResource {
         this.keywordService = keywordService;
     }
 
+    @RolesAllowed("USER")
     @POST
     public RestResponse<Void> createNewKeyword(KeywordRequestDTO dto) {
         this.keywordService.createKeywords(dto);
@@ -53,6 +55,7 @@ public class KeywordResource {
     }
 
 
+    @RolesAllowed("USER")
     @DELETE
     @Path("{code}")
     public RestResponse<Void> deleteKeyword(@PathParam("code") String code) {

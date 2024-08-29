@@ -1,5 +1,7 @@
 package com.subrutin.lingkar.catalog.repository;
 
+import java.util.Set;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,5 +12,5 @@ public interface KeywordRepository extends JpaRepository<Keyword, String> {
 
     Page<Keyword> findAllByCodeLikeIgnoreCase(String code, Pageable pageable);
 
-
+    Set<Keyword> findAllByNameIn(Set<String> names);
 }
