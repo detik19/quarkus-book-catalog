@@ -9,6 +9,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -33,10 +34,15 @@ public class Book extends AbstractBaseEntity {
     @Column(name = "book_type", nullable = false)
     private Type bookType;
 
-    @Column(name = "description")
+    @Column(name = "description", columnDefinition = "varchar(1000)")
     private String description;
 
-    @ManyToMany(mappedBy = "books")
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinTable(name = "book_author", joinColumns = {
+        @JoinColumn(name = "book_id", referencedColumnName = "id")
+    }, inverseJoinColumns = {
+        @JoinColumn(name = "author_id", referencedColumnName = "id")
+    })
     private Set<Author> authors;
 
     @ManyToOne
@@ -59,6 +65,10 @@ public class Book extends AbstractBaseEntity {
             @JoinColumn(name = "keyword_code", referencedColumnName = "code")
     })
     private Set<Keyword> keywords;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "publisher_id", nullable = false)
+    private Publisher publisher;
 
     public void addKeyword(Keyword keyword) {
         this.keywords.add(keyword);
@@ -145,6 +155,14 @@ public class Book extends AbstractBaseEntity {
         this.editionOf = editionOf;
     }
 
+
+    public Publisher getPublisher() {
+        return this.publisher;
+    }
+
+    public void setPublisher(Publisher publisher) {
+        this.publisher = publisher;
+    }
 
     
 

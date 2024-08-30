@@ -25,7 +25,7 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.SecurityContext;
 
-@Path("/v1/author")
+@Path("/v1/authors")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class AuthorResource {
@@ -36,13 +36,14 @@ public class AuthorResource {
         this.authorService = authorService;
     }
 
-    @RolesAllowed("USER")
+    @RolesAllowed("ADMIN")
     @POST
     public RestResponse<Void> createNewAuthor(AuthorCreateRequestDTO dto) {
         authorService.createAuthor(dto);
         return RestResponse.created(URI.create("/v1/author"));
     }
 
+    @RolesAllowed("ADMIN")
     @PUT
     @Path("/{id}")
     public RestResponse<Void> updateAuthor(@PathParam("id") Long id, AuthorUpdateRequestDTO dto) {
@@ -58,7 +59,6 @@ public class AuthorResource {
     }
 
 
-    @RolesAllowed("USER")
     @GET
     public RestResponse<ResultPageResponseDTO<AuthorListResponseDTO>> findAuthorList(
             @QueryParam("pages") @DefaultValue("0") Integer pages,

@@ -1,6 +1,7 @@
 package com.subrutin.lingkar.catalog.service.impl;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.subrutin.lingkar.catalog.domain.Category;
@@ -51,6 +52,11 @@ public class CategoryServiceImpl implements CategoryService {
             CategoryResponseDTO dto = new CategoryResponseDTO(c.getCode(), c.getName());
             return dto;
         }).collect(Collectors.toList());
+    }
+
+    @Override
+    public Set<Category> findAllCategory(Set<String> codes) {
+        return categoryRepository.findAllByCodeIn(codes);
     }
 
 }

@@ -1,5 +1,8 @@
 package com.subrutin.lingkar.catalog.service;
 
+import java.util.Set;
+
+import com.subrutin.lingkar.catalog.domain.Author;
 import com.subrutin.lingkar.catalog.dto.AuthorCreateRequestDTO;
 import com.subrutin.lingkar.catalog.dto.AuthorDetailResponseDTO;
 import com.subrutin.lingkar.catalog.dto.AuthorListResponseDTO;
@@ -18,6 +21,8 @@ public interface AuthorService {
         Integer pages, Integer limit, String direction, String sortBy,
         String name
     );
+
+    public Set<Author> findAllAuthor(Set<Long> ids);
 
 
 

@@ -20,11 +20,11 @@ smallrye:
   jwt:
     sign:
       key:
-        location: ${privatekey:classpath:jwt/privatekey.pem}
+        location: privatekey.pem
 mp:
   jwt:
     verify:
       publickey:
-        location: ${publickey:classpath:jwt/publickey.pem}
+        location: publickey.pem
       issuer: https://nostratech.com
         

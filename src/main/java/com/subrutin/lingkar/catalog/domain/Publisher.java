@@ -1,5 +1,7 @@
 package com.subrutin.lingkar.catalog.domain;
 
+
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,7 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Table(name="publisher")
-@Entity
+@Entity 
 public class Publisher extends AbstractBaseEntity {
 
     @Id
@@ -18,7 +20,7 @@ public class Publisher extends AbstractBaseEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name="description")
+    @Column(name="description", columnDefinition = "varchar(1000)")
     private String description;
 
     public Long getId() {
@@ -44,6 +46,7 @@ public class Publisher extends AbstractBaseEntity {
     public void setDescription(String description) {
         this.description = description;
     }
+
 
   
 

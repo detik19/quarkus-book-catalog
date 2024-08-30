@@ -2,6 +2,7 @@ package com.subrutin.lingkar.catalog.service.impl;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
@@ -81,6 +82,15 @@ public class AuthorServiceImpl implements AuthorService{
             return dto;
         }).collect(Collectors.toList());
         return PaginationUtil.createResultPageDTO(dtos, pageResult.getTotalElements(), pageResult.getTotalPages());
+    }
+
+    @Override
+    public Set<Author> findAllAuthor(Set<Long> ids) {
+        Set<Author> authors = authorRepository.findAllByIdIn(ids);
+        if(authors.size()!=ids.size()){
+            throw new ResourceNotFoundException("author.id not found");
+        }
+        return authors;
     }
 
 }

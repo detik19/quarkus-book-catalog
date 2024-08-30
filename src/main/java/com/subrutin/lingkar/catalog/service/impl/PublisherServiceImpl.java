@@ -74,7 +74,7 @@ public class PublisherServiceImpl implements PublisherService {
     @Override
     public void deletePublisher(Long id) {
         publisherRepository.softDelete(id);
-        
+
     }
 
     @Override
@@ -85,6 +85,13 @@ public class PublisherServiceImpl implements PublisherService {
         PublisherDetailResponseDTO dto = new PublisherDetailResponseDTO(publisher.getId(), publisher.getName(),
                 publisher.getDescription());
         return dto;
+    }
+
+    @Override
+    public Publisher findPublisherById(Long id) {
+        return publisherRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("publisher.notfound"));
+
     }
 
 }

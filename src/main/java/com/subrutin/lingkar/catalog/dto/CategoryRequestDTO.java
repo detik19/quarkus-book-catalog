@@ -1,5 +1,7 @@
 package com.subrutin.lingkar.catalog.dto;
 
-public record CategoryRequestDTO(String code, String name) {
+import jakarta.validation.constraints.NotBlank;
+
+public record CategoryRequestDTO(@NotBlank String code, String name) {
 
 }

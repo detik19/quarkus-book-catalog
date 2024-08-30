@@ -49,14 +49,14 @@ public class PublisherResource {
             return restresponse;
         }
 
-    @RolesAllowed("USER")    
+    @RolesAllowed("ADMIN")    
     @POST
     public RestResponse<Void> createNewPublisher(PublisherCreateRequestDTO dto){
         publisherService.createPublisher(dto);
         return RestResponse.created(URI.create("/v1/publisher"));
     }
 
-    @RolesAllowed("USER")
+    @RolesAllowed("ADMIN")
     @PUT
     @Path("/{id}")
     public RestResponse<Void> updatePublisher(@PathParam(value = "id") Long id, PublisherUpdateRequestDTO dto){
@@ -72,7 +72,7 @@ public class PublisherResource {
     }
 
 
-    @RolesAllowed("USER")
+    @RolesAllowed("ADMIN")
     @DELETE
     @Path("/{id}")
     public RestResponse<Void> deletePublisher(@PathParam(value = "id") Long id){

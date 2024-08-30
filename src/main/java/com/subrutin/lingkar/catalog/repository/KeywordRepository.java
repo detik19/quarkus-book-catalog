@@ -12,5 +12,5 @@ public interface KeywordRepository extends JpaRepository<Keyword, String> {
 
     Page<Keyword> findAllByCodeLikeIgnoreCase(String code, Pageable pageable);
 
-    Set<Keyword> findAllByNameIn(Set<String> names);
+    Set<Keyword> findAllByCodeIn(Set<String> names);
 }

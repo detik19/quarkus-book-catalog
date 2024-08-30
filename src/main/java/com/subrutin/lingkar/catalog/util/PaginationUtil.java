@@ -6,6 +6,8 @@ import org.springframework.data.domain.Sort;
 
 import com.subrutin.lingkar.catalog.dto.ResultPageResponseDTO;
 
+import io.quarkus.panache.common.Sort.Direction;
+
 
 public class PaginationUtil {
     public static <T> ResultPageResponseDTO<T> createResultPageDTO(List<T> dtos, Long totalElements, Integer pages){
@@ -21,6 +23,14 @@ public class PaginationUtil {
 			return Sort.Direction.ASC;
 		}else {
 			return Sort.Direction.DESC;
+		}
+	}
+
+	public static Direction getDirection(String direction){
+		if(direction.equalsIgnoreCase("asc")) {
+			return Direction.Ascending;
+		}else {
+			return Direction.Descending;
 		}
 	}
 

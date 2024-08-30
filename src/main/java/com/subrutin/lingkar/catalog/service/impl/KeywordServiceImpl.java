@@ -1,6 +1,7 @@
 package com.subrutin.lingkar.catalog.service.impl;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
@@ -12,6 +13,7 @@ import com.subrutin.lingkar.catalog.domain.Keyword;
 import com.subrutin.lingkar.catalog.dto.KeywordListResponseDTO;
 import com.subrutin.lingkar.catalog.dto.KeywordRequestDTO;
 import com.subrutin.lingkar.catalog.dto.ResultPageResponseDTO;
+import com.subrutin.lingkar.catalog.exception.ResourceNotFoundException;
 import com.subrutin.lingkar.catalog.repository.KeywordRepository;
 import com.subrutin.lingkar.catalog.service.KeywordService;
 import com.subrutin.lingkar.catalog.util.PaginationUtil;
@@ -56,6 +58,17 @@ public class KeywordServiceImpl implements KeywordService {
     public void deleteKeyword(String code) {
 
         keywordRepository.deleteById(code);
+    }
+
+    @Override
+    public Set<Keyword> findAllKeywords(Set<String> codes) {
+
+        Set<Keyword> keywords= keywordRepository.findAllByCodeIn(codes);
+        if(codes.size()!=keywords.size()){
+            throw new ResourceNotFoundException("keyword.notfound");
+        }
+
+        return keywords;
     }
 
 }

@@ -9,6 +9,7 @@ import com.subrutin.lingkar.catalog.dto.CategoryRequestDTO;
 import com.subrutin.lingkar.catalog.dto.CategoryResponseDTO;
 import com.subrutin.lingkar.catalog.service.CategoryService;
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.DefaultValue;
@@ -20,7 +21,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 
-@Path("/v1/category")
+@Path("/v1/categories")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class CategoryResource {
@@ -31,6 +32,7 @@ public class CategoryResource {
         this.categoryService = categoryService;
     }   
 
+    @RolesAllowed("ADMIN")
     @POST
     public RestResponse<Void> createAndUpdateCategory(CategoryRequestDTO dto) {
         categoryService.createAndUpdateCategory(dto);
